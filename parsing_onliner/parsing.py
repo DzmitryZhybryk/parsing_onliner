@@ -54,6 +54,20 @@ class OnlinerHTMLParser:
         return all_articles_links
 
     @staticmethod
+    def parser_onliner_category_names(html: str, exception=None) -> List[str]:
+        pass
+        all_categories_names = []
+        soup = BeautifulSoup(html, 'html.parser')
+        items = soup.find_all('div', class_='b-main-page-grid-4')
+        print(items)
+        for item in items:
+            item_name = item.find_all('header', class_='b-main-page-blocks-header-2').find('a').get_text(strip=True)
+            if item_name == exception:
+                continue
+            all_categories_names.append(item_name)
+        return all_categories_names
+
+    @staticmethod
     def __helper_parser_onliner_articles(text: str) -> str:
         if '\xa0' in text and 'nbsp' in text:
             text = text.replace('\xa0', '')
@@ -62,6 +76,7 @@ class OnlinerHTMLParser:
 
     @staticmethod
     def parser_onliner_articles(html: str) -> List[dict]:
+        pass
         """
         Method gets information about articles
         :param html: html page cod articles links
