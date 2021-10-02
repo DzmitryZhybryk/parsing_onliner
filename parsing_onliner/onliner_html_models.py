@@ -1,10 +1,9 @@
 """Storage module for class OnlinerArticle, OnlinerCategory and MainOnlinerPageLinks"""
 from typing import List
 from parsing import OnlinerHTMLParser
-from http_client import HTTPClient
 from error_handling import Logging
+from requests import codes
 
-REQUEST_STATUS_CODE = 200
 DEFAULT_HEADERS = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko)'
                   ' Chrome/93.0.4577.82 Safari/537.36', 'accept': '*/*'}
@@ -27,7 +26,7 @@ class OnlinerArticle:
         :return: list with information about article name, article date and article author for articles
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
-        if response.status_code == REQUEST_STATUS_CODE:
+        if response.status_code == codes.ok:
             articles_info = OnlinerHTMLParser.parser_onliner_articles(response.text)
             return articles_info
         Logging.error_info(response.status_code, response.reason)
@@ -51,7 +50,7 @@ class OnlinerCategory:
         :return: list with object OnlinerArticle class
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
-        if response.status_code == REQUEST_STATUS_CODE:
+        if response.status_code == codes.ok:
             articles_links = OnlinerHTMLParser.parser_onliner_articles_link(response.text)
             return [OnlinerArticle(link, http) for link, http in articles_links]
         Logging.error_info(response.status_code, response.reason)
@@ -77,7 +76,7 @@ class MainOnlinerPage:
         :return: list with object OnlinerCategory class
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
-        if response.status_code == REQUEST_STATUS_CODE:
+        if response.status_code == codes.ok:
             categories_links = OnlinerHTMLParser.parser_onliner_categories_link(response.text, self.__exception)
             return [OnlinerCategory(link, http) for link, http in categories_links]
         Logging.error_info(response.status_code, response.reason)
