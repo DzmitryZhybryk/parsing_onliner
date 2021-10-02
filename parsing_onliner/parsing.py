@@ -16,7 +16,7 @@ class OnlinerHTMLParser:
         :return: links for categories
         """
         all_categories_links = []
-        soup = BeautifulSoup(html, 'lxml')
+        soup = BeautifulSoup(html, 'html.parser')
         items = soup.find_all('div', class_='b-main-page-grid-4')
         for item in items:
             item_href = item.find('header', class_='b-main-page-blocks-header-2').find('a').get('href')
@@ -41,7 +41,7 @@ class OnlinerHTMLParser:
         :param html: html page cod categories links
         :return: links for articles
         """
-        soup = BeautifulSoup(html, 'lxml')
+        soup = BeautifulSoup(html, 'html.parser')
         first_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tiles__stub')
         second_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tidings__stub')
         all_articles_links = []
@@ -54,18 +54,24 @@ class OnlinerHTMLParser:
         return all_articles_links
 
     @staticmethod
+    def __helper_parser_onliner_articles(text: str) -> str:
+        if '\xa0' in text and 'nbsp' in text:
+            text = text.replace('\xa0', '')
+            text = text.replace('nbsp', '')
+        return text
+
+    @staticmethod
     def parser_onliner_articles(html: str) -> List[dict]:
         """
         Method gets information about articles
         :param html: html page cod articles links
         :return: information about article
         """
-        soup = BeautifulSoup(html, 'lxml')
+        soup = BeautifulSoup(html, 'html.parser')
         article_info = list()
         article_author = soup.find('div', class_='news-header__author news-helpers_hide_mobile').get_text(
             strip=True)
-        if '&nbsp' in article_author:
-            article_author = article_author.replace('&nbsp', '')
+        article_author = OnlinerHTMLParser.__helper_parser_onliner_articles(article_author)
         article_info.append({
             ArticleField.ARTICLE_NAMES.value: soup.find('div', class_='news-header__title').get_text(strip=True),
             ArticleField.ARTICLE_DATE.value: soup.find('div', class_='news-header__time').get_text(strip=True),
