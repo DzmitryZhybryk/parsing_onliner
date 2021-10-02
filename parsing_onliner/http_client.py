@@ -4,7 +4,7 @@ from requests import Response
 
 
 class HTTPClient:
-    """Class gets http from link"""
+    """Class gets, post, put, delete http from link"""
 
     @staticmethod
     def get(url: str, headers=None, params=None) -> Response:
