@@ -13,7 +13,7 @@ class OnlinerHTMLParser:
         Method gets all categories links
         :param html: html page cod for parsing
         :param exception: used for exclusion something from result
-        :return: links for categories
+        :return: categories links
         """
         all_categories_links = []
         soup = BeautifulSoup(html, 'html.parser')
@@ -29,7 +29,7 @@ class OnlinerHTMLParser:
     def __helper_parser_onliner_articles_link(link: str) -> str:
         """
         Helper parser_onliner_articles_link method
-        :param link: article links
+        :param link: article link
         :return: verified links to include HTTP
         """
         return link if 'https:/' in link else f'https:/{link}'
@@ -37,9 +37,9 @@ class OnlinerHTMLParser:
     @staticmethod
     def parser_onliner_articles_link(html: str) -> List[str]:
         """
-        Method gets all articles links
-        :param html: html page cod categories links
-        :return: links for articles
+        Method gets article links
+        :param html: links to categories of html page codes
+        :return: article links
         """
         soup = BeautifulSoup(html, 'html.parser')
         first_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tiles__stub')
@@ -55,7 +55,12 @@ class OnlinerHTMLParser:
 
     @staticmethod
     def parser_onliner_category_names(html: str, exception=None) -> List[str]:
-        pass
+        """
+        Method gets all category names
+        :param html: html page cod for parsing
+        :param exception: used for exclusion something from result
+        :return: article names list
+        """
         all_categories_names = []
         soup = BeautifulSoup(html, 'html.parser')
         items = soup.find_all('div', class_='b-main-page-grid-4')
@@ -69,6 +74,11 @@ class OnlinerHTMLParser:
 
     @staticmethod
     def __helper_parser_onliner_articles(text: str) -> str:
+        """
+        Helper parser_onliner_articles method
+        :param text: article info
+        :return: correct article info
+        """
         if '\xa0' in text and 'nbsp' in text:
             text = text.replace('\xa0', '')
             text = text.replace('nbsp', '')
@@ -79,8 +89,8 @@ class OnlinerHTMLParser:
         pass
         """
         Method gets information about articles
-        :param html: html page cod articles links
-        :return: information about article
+        :param html: html page cod article links
+        :return: article information
         """
         soup = BeautifulSoup(html, 'html.parser')
         article_info = list()

@@ -23,8 +23,8 @@ class OnlinerArticle:
 
     def __get_articles_info_list(self) -> List[dict]:
         """
-        Method gets articles information
-        :return: list with information about article name, article date and article author for articles
+        Method gets information about articles
+        :return: list with information about article name, article date and article author
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
@@ -39,7 +39,7 @@ class OnlinerCategory:
 
     def __init__(self, category_url: str, http_client: HTTPClient, exception=None):
         """
-        :param category_url: categories url address
+        :param category_url: category url address
         """
         self.url = category_url
         self.http_client = http_client
@@ -49,7 +49,7 @@ class OnlinerCategory:
 
     def __get_article_object(self) -> List[OnlinerArticle]:
         """
-        Method gets all categories links
+        Method gets links for all categories
         :return: list with object OnlinerArticle class
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
@@ -60,6 +60,10 @@ class OnlinerCategory:
         return []
 
     def __get_category_names(self):
+        """
+        Method gets names for categories
+        :return: category names list
+        """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
             category_names = OnlinerHTMLParser.parser_onliner_category_names(response.text, self.__exception)
@@ -83,7 +87,7 @@ class MainOnlinerPage:
 
     def __get_onliner_category_object(self) -> List[OnlinerCategory]:
         """
-        Method gets all categories links
+        Method gets links for all categories
         :return: list with object OnlinerCategory class
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
