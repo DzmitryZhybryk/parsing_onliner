@@ -4,7 +4,7 @@ from requests import Response
 
 
 class HTTPClient:
-    """Class for analyzing requests"""
+    """Class sending requests"""
 
     @staticmethod
     def get(url: str, headers=None, params=None) -> Response:
