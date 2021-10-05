@@ -1,5 +1,5 @@
-from onliner_html_models import MainOnlinerPage, OnlinerCategory, OnlinerArticle
-from http_client import HTTPClient
+from parsing_onliner.tools.parsers.onliner_html_models import MainOnlinerPage, OnlinerCategory, OnlinerArticle
+from parsing_onliner.tools.clients.http_client import HTTPClient
 
 if __name__ == '__main__':
     http_client = HTTPClient()
@@ -15,4 +15,3 @@ if __name__ == '__main__':
 
     article_info = OnlinerArticle('https://auto.onliner.by/2021/09/27/v-velikobritanii-deficit-topliva', http_client)
     print(article_info.get_articles_info_list)
-

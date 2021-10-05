@@ -1,9 +1,9 @@
 """Storage module for class OnlinerArticle, OnlinerCategory and MainOnlinerPageLinks"""
 from typing import List
-from parsing import OnlinerHTMLParser
-from error_handling import Logging
+from parsing_onliner.models.onliner_objects.parsing import OnlinerHTMLParser
+from parsing_onliner.models.onliner_objects.error_handling import LoggingErrors
 from requests import codes
-from parsing_onliner.parsing_onliner.http_client import HTTPClient
+from parsing_onliner.tools.clients.http_client import HTTPClient
 
 DEFAULT_HEADERS = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko)'
@@ -30,7 +30,7 @@ class OnlinerArticle:
         if response.status_code == codes.ok:
             articles_info = OnlinerHTMLParser.parser_onliner_articles(response.text)
             return articles_info
-        Logging.error_info(response.status_code, response.reason)
+        LoggingErrors.error_info(response.status_code, response.reason)
         return []
 
 
@@ -55,7 +55,7 @@ class OnlinerCategory:
         if response.status_code == codes.ok:
             articles_links = OnlinerHTMLParser.parser_onliner_articles_link(response.text)
             return [OnlinerArticle(link, self.http_client) for link in articles_links]
-        Logging.error_info(response.status_code, response.reason)
+        LoggingErrors.error_info(response.status_code, response.reason)
         return []
 
     @property
@@ -68,7 +68,7 @@ class OnlinerCategory:
         if response.status_code == codes.ok:
             category_names = OnlinerHTMLParser.parser_onliner_category_names(response.text, self.__exception)
             return category_names
-        Logging.error_info(response.status_code, response.reason)
+        LoggingErrors.error_info(response.status_code, response.reason)
         return []
 
 
@@ -94,5 +94,5 @@ class MainOnlinerPage:
         if response.status_code == codes.ok:
             categories_links = OnlinerHTMLParser.parser_onliner_categories_link(response.text, self.__exception)
             return [OnlinerCategory(link, self.http_client) for link in categories_links]
-        Logging.error_info(response.status_code, response.reason)
+        LoggingErrors.error_info(response.status_code, response.reason)
         return []
