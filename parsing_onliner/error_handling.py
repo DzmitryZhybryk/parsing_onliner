@@ -2,7 +2,7 @@
 import logging
 
 
-class Logging:
+class LoggingErrors:
     """Errors checking class"""
 
     @staticmethod
