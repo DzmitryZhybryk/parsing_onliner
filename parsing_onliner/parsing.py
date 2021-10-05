@@ -1,7 +1,7 @@
 """Storage module for class OnlinerHTMLParser"""
 from typing import List
-from bs4 import BeautifulSoup
 from variables import ArticleField
+from bs4 import BeautifulSoup
 
 
 class OnlinerHTMLParser:
@@ -10,9 +10,9 @@ class OnlinerHTMLParser:
     @staticmethod
     def parser_onliner_categories_link(html: str, exception=None) -> List[str]:
         """
-        Method gets all categories links
+        Main onliner page parsing method
         :param html: html page cod for parsing
-        :param exception: used for exclusion something from result
+        :param exception: use for exclusion something from result
         :return: categories links
         """
         all_categories_links = []
@@ -37,7 +37,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def parser_onliner_articles_link(html: str) -> List[str]:
         """
-        Method gets article links
+        Category page parsing method
         :param html: links to categories of html page codes
         :return: article links
         """
@@ -56,7 +56,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def parser_onliner_category_names(html: str, exception=None) -> List[str]:
         """
-        Method gets all category names
+        Main onliner page parsing method
         :param html: html page cod for parsing
         :param exception: used for exclusion something from result
         :return: article names list
@@ -64,9 +64,8 @@ class OnlinerHTMLParser:
         all_categories_names = []
         soup = BeautifulSoup(html, 'html.parser')
         items = soup.find_all('div', class_='b-main-page-grid-4')
-        print(items)
         for item in items:
-            item_name = item.find_all('header', class_='b-main-page-blocks-header-2').find('a').get_text(strip=True)
+            item_name = item.find('header', class_='b-main-page-blocks-header-2').find('a').get_text(strip=True)
             if item_name == exception:
                 continue
             all_categories_names.append(item_name)
@@ -79,16 +78,12 @@ class OnlinerHTMLParser:
         :param text: article info
         :return: correct article info
         """
-        if '\xa0' in text and 'nbsp' in text:
-            text = text.replace('\xa0', '')
-            text = text.replace('nbsp', '')
-        return text
+        return text.replace('\xa0', '').replace('nbsp', '')
 
     @staticmethod
     def parser_onliner_articles(html: str) -> List[dict]:
-        pass
         """
-        Method gets information about articles
+        Article page parsing method
         :param html: html page cod article links
         :return: article information
         """
