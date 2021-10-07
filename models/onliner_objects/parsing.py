@@ -8,7 +8,7 @@ class OnlinerHTMLParser:
     """Class parsing links"""
 
     @staticmethod
-    def parser_onliner_categories_link(html: str, exception=None) -> List[str]:
+    def parser_categories_link(html: str, exception: str = None) -> List[str]:
         """
         Main onliner page parsing method
         :param html: html page cod for parsing
@@ -26,7 +26,7 @@ class OnlinerHTMLParser:
         return all_categories_links
 
     @staticmethod
-    def __helper_parser_onliner_articles_link(link: str) -> str:
+    def __helper_parser_articles_link(link: str) -> str:
         """
         Helper parser_onliner_articles_link method
         :param link: article link
@@ -35,7 +35,7 @@ class OnlinerHTMLParser:
         return link if 'https:/' in link else f'https:/{link}'
 
     @staticmethod
-    def parser_onliner_articles_link(html: str) -> List[str]:
+    def parser_articles_link(html: str) -> List[str]:
         """
         Category page parsing method
         :param html: links to categories of html page codes
@@ -47,14 +47,14 @@ class OnlinerHTMLParser:
         all_articles_links = []
         for item in first_soup_object:
             link = item.get('href')
-            all_articles_links.append(OnlinerHTMLParser.__helper_parser_onliner_articles_link(link))
+            all_articles_links.append(OnlinerHTMLParser.__helper_parser_articles_link(link))
         for item in second_soup_object:
             link = item.get('href')
-            all_articles_links.append(OnlinerHTMLParser.__helper_parser_onliner_articles_link(link))
+            all_articles_links.append(OnlinerHTMLParser.__helper_parser_articles_link(link))
         return all_articles_links
 
     @staticmethod
-    def parser_onliner_category_names(html: str, exception=None) -> List[str]:
+    def parser_onliner_category_names(html: str, exception: str = None) -> List[str]:
         """
         Main onliner page parsing method
         :param html: html page cod for parsing
@@ -72,7 +72,7 @@ class OnlinerHTMLParser:
         return all_categories_names
 
     @staticmethod
-    def __helper_parser_onliner_articles(text: str) -> str:
+    def __helper_parser_articles(text: str) -> str:
         """
         Helper parser_onliner_articles method
         :param text: article info
@@ -81,7 +81,7 @@ class OnlinerHTMLParser:
         return text.replace('\xa0', '').replace('nbsp', '')
 
     @staticmethod
-    def parser_onliner_articles(html: str) -> List[dict]:
+    def parser_articles(html: str) -> List[dict]:
         """
         Article page parsing method
         :param html: html page cod article links
@@ -91,7 +91,7 @@ class OnlinerHTMLParser:
         article_info = list()
         article_author = soup.find('div', class_='news-header__author news-helpers_hide_mobile').get_text(
             strip=True)
-        article_author = OnlinerHTMLParser.__helper_parser_onliner_articles(article_author)
+        article_author = OnlinerHTMLParser.__helper_parser_articles(article_author)
         article_info.append({
             ArticleField.ARTICLE_NAMES.value: soup.find('div', class_='news-header__title').get_text(strip=True),
             ArticleField.ARTICLE_DATE.value: soup.find('div', class_='news-header__time').get_text(strip=True),
