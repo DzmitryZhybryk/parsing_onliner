@@ -28,7 +28,7 @@ class OnlinerArticle:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            articles_info = OnlinerHTMLParser.parser_articles(response.text)
+            articles_info = OnlinerHTMLParser.get_articles(response.text)
             return articles_info
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
@@ -53,7 +53,7 @@ class OnlinerCategory:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            articles_links = OnlinerHTMLParser.parser_articles_link(response.text)
+            articles_links = OnlinerHTMLParser.get_articles_link(response.text)
             return [OnlinerArticle(link, self.http_client) for link in articles_links]
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
@@ -66,7 +66,7 @@ class OnlinerCategory:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            category_names = OnlinerHTMLParser.parser_onliner_category_names(response.text, self.__exception)
+            category_names = OnlinerHTMLParser.get_onliner_category_names(response.text, self.__exception)
             return category_names
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
@@ -92,7 +92,7 @@ class MainOnlinerPage:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            categories_links = OnlinerHTMLParser.parser_categories_link(response.text, self.__exception)
+            categories_links = OnlinerHTMLParser.get_categories_link(response.text, self.__exception)
             return [OnlinerCategory(link, self.http_client) for link in categories_links]
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []

@@ -8,7 +8,7 @@ class OnlinerHTMLParser:
     """Class parsing links"""
 
     @staticmethod
-    def parser_categories_link(html: str, exception: str = None) -> List[str]:
+    def get_categories_link(html: str, exception: str = None) -> List[str]:
         """
         Main onliner page parsing method
         :param html: html page cod for parsing
@@ -35,7 +35,7 @@ class OnlinerHTMLParser:
         return link if 'https:/' in link else f'https:/{link}'
 
     @staticmethod
-    def parser_articles_link(html: str) -> List[str]:
+    def get_articles_link(html: str) -> List[str]:
         """
         Category page parsing method
         :param html: links to categories of html page codes
@@ -54,7 +54,7 @@ class OnlinerHTMLParser:
         return all_articles_links
 
     @staticmethod
-    def parser_onliner_category_names(html: str, exception: str = None) -> List[str]:
+    def get_onliner_category_names(html: str, exception: str = None) -> List[str]:
         """
         Main onliner page parsing method
         :param html: html page cod for parsing
@@ -81,7 +81,7 @@ class OnlinerHTMLParser:
         return text.replace('\xa0', '').replace('nbsp', '')
 
     @staticmethod
-    def parser_articles(html: str) -> List[dict]:
+    def get_articles(html: str) -> List[dict]:
         """
         Article page parsing method
         :param html: html page cod article links
