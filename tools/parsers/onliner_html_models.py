@@ -1,7 +1,7 @@
 """Storage module for class OnlinerArticle, OnlinerCategory and MainOnlinerPageLinks"""
+import logging
 from typing import List
 from parsing_onliner.models.onliner_objects.parsing import OnlinerHTMLParser
-from parsing_onliner.models.onliner_objects.error_handling import LoggingErrors
 from requests import codes
 from parsing_onliner.tools.clients.http_client import HTTPClient
 
@@ -30,7 +30,7 @@ class OnlinerArticle:
         if response.status_code == codes.ok:
             articles_info = OnlinerHTMLParser.parser_onliner_articles(response.text)
             return articles_info
-        LoggingErrors.error_info(response.status_code, response.reason)
+        logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
 
 
@@ -55,7 +55,7 @@ class OnlinerCategory:
         if response.status_code == codes.ok:
             articles_links = OnlinerHTMLParser.parser_onliner_articles_link(response.text)
             return [OnlinerArticle(link, self.http_client) for link in articles_links]
-        LoggingErrors.error_info(response.status_code, response.reason)
+        logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
 
     @property
@@ -68,7 +68,7 @@ class OnlinerCategory:
         if response.status_code == codes.ok:
             category_names = OnlinerHTMLParser.parser_onliner_category_names(response.text, self.__exception)
             return category_names
-        LoggingErrors.error_info(response.status_code, response.reason)
+        logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
 
 
@@ -94,5 +94,5 @@ class MainOnlinerPage:
         if response.status_code == codes.ok:
             categories_links = OnlinerHTMLParser.parser_onliner_categories_link(response.text, self.__exception)
             return [OnlinerCategory(link, self.http_client) for link in categories_links]
-        LoggingErrors.error_info(response.status_code, response.reason)
+        logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
