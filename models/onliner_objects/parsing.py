@@ -89,9 +89,9 @@ class OnlinerHTMLParser:
         """
         soup = BeautifulSoup(html, 'html.parser')
         article_info = list()
-        article_author = soup.find('div', class_='news-header__author news-helpers_hide_mobile').get_text(
+        items = soup.find('div', class_='news-header__author news-helpers_hide_mobile').get_text(
             strip=True)
-        article_author = OnlinerHTMLParser.__helper_parser_articles(article_author)
+        article_author = OnlinerHTMLParser.__helper_parser_articles(items)
         article_info.append({
             ArticleField.ARTICLE_NAMES.value: soup.find('div', class_='news-header__title').get_text(strip=True),
             ArticleField.ARTICLE_DATE.value: soup.find('div', class_='news-header__time').get_text(strip=True),
