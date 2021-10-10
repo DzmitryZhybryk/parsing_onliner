@@ -46,7 +46,7 @@ class OnlinerCategory:
         self.__exception = exception
 
     @property
-    def get_article_object(self) -> List[OnlinerArticle]:
+    def get_articles_object(self) -> List[OnlinerArticle]:
         """
         Method to call the parser_onliner_articles_link method
         :return: list with OnlinerArticle class object
@@ -59,7 +59,7 @@ class OnlinerCategory:
         return []
 
     @property
-    def get_category_names(self) -> List[str]:
+    def get_categories_name(self) -> List[str]:
         """
         Method to call the parser_onliner_category_names method
         :return: category names list
@@ -85,7 +85,7 @@ class MainOnlinerPage:
         self.__exception = exception
 
     @property
-    def get_onliner_category_object(self) -> List[OnlinerCategory]:
+    def get_onliner_categories_object(self) -> List[OnlinerCategory]:
         """
         Method to call the parser_onliner_categories_link method
         :return: list with OnlinerCategory class object

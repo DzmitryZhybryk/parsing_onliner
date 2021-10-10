@@ -26,13 +26,27 @@ class OnlinerHTMLParser:
         return all_categories_links
 
     @staticmethod
-    def __helper_parser_articles_link(link: str) -> str:
+    def __http_check(link: str) -> str:
         """
         Helper parser_onliner_articles_link method
         :param link: article link
         :return: verified links to include HTTP
         """
         return link if 'https:/' in link else f'https:/{link}'
+
+    @staticmethod
+    def __helper_get_articles_link(*soup_objects: list) -> List[str]:
+        """
+        Helper parser_onliner_articles_link method
+        :param soup_objects: list soup objects
+        :return: article links
+        """
+        result = []
+        for items in soup_objects:
+            for item in items:
+                link = item.get('href')
+                result.append(OnlinerHTMLParser.__http_check(link))
+        return result
 
     @staticmethod
     def get_articles_link(html: str) -> List[str]:
@@ -42,15 +56,10 @@ class OnlinerHTMLParser:
         :return: article links
         """
         soup = BeautifulSoup(html, 'html.parser')
-        first_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tiles__stub')
-        second_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tidings__stub')
-        all_articles_links = []
-        for item in first_soup_object:
-            link = item.get('href')
-            all_articles_links.append(OnlinerHTMLParser.__helper_parser_articles_link(link))
-        for item in second_soup_object:
-            link = item.get('href')
-            all_articles_links.append(OnlinerHTMLParser.__helper_parser_articles_link(link))
+        first_list_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tiles__stub')
+        second_list_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tidings__stub')
+        all_articles_links = list(OnlinerHTMLParser.__helper_get_articles_link(first_list_soup_object,
+                                                                               second_list_soup_object))
         return all_articles_links
 
     @staticmethod
