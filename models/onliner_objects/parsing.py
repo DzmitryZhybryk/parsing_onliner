@@ -1,28 +1,32 @@
 """Storage module for class OnlinerHTMLParser"""
 from typing import List
-from variables import ArticleField
+from models.onliner_objects.variables import ArticleField
 from bs4 import BeautifulSoup
 
 
 class OnlinerHTMLParser:
-    """Class parsing links"""
+    """Parsing class for working with Onliner pages"""
 
     @staticmethod
-    def get_categories_link(html: str, exception: str = None) -> List[str]:
+    def get_categories_data(html: str, is_links=True, exception: str = None) -> List[str]:
         """
-        Main onliner page parsing method
-        :param html: html page cod for parsing
+        Category page parsing method
+        :param html: links to categories of html page codes
+        :param is_links: flag for selecting the desired iteration
         :param exception: use for exclusion something from result
-        :return: categories links
+        :return: article links or category names
         """
         all_categories_links = []
         soup = BeautifulSoup(html, 'html.parser')
-        items = soup.find_all('div', class_='b-main-page-grid-4')
-        for item in items:
-            item_href = item.find('header', class_='b-main-page-blocks-header-2').find('a').get('href')
-            if item_href == exception:
+        data = soup.find_all('div', class_='b-main-page-grid-4')
+        for items in data:
+            if is_links:
+                item = items.find('header', class_='b-main-page-blocks-header-2').find('a').get('href')
+            else:
+                item = items.find('header', class_='b-main-page-blocks-header-2').find('a').get_text(strip=True)
+            if item == exception:
                 continue
-            all_categories_links.append(item_href)
+            all_categories_links.append(item)
         return all_categories_links
 
     @staticmethod
@@ -63,25 +67,7 @@ class OnlinerHTMLParser:
         return all_articles_links
 
     @staticmethod
-    def get_onliner_category_names(html: str, exception: str = None) -> List[str]:
-        """
-        Main onliner page parsing method
-        :param html: html page cod for parsing
-        :param exception: used for exclusion something from result
-        :return: article names list
-        """
-        all_categories_names = []
-        soup = BeautifulSoup(html, 'html.parser')
-        items = soup.find_all('div', class_='b-main-page-grid-4')
-        for item in items:
-            item_name = item.find('header', class_='b-main-page-blocks-header-2').find('a').get_text(strip=True)
-            if item_name == exception:
-                continue
-            all_categories_names.append(item_name)
-        return all_categories_names
-
-    @staticmethod
-    def __helper_parser_articles(text: str) -> str:
+    def __helper_get_articles(text: str) -> str:
         """
         Helper parser_onliner_articles method
         :param text: article info
@@ -100,7 +86,7 @@ class OnlinerHTMLParser:
         article_info = list()
         items = soup.find('div', class_='news-header__author news-helpers_hide_mobile').get_text(
             strip=True)
-        article_author = OnlinerHTMLParser.__helper_parser_articles(items)
+        article_author = OnlinerHTMLParser.__helper_get_articles(items)
         article_info.append({
             ArticleField.ARTICLE_NAMES.value: soup.find('div', class_='news-header__title').get_text(strip=True),
             ArticleField.ARTICLE_DATE.value: soup.find('div', class_='news-header__time').get_text(strip=True),

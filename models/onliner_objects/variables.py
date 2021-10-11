@@ -3,7 +3,7 @@ from enum import Enum
 
 
 class ArticleField(Enum):
-    """OnlinerHTMLParser application type class"""
+    """Class immutable values"""
 
     ARTICLE_NAMES = 'article_names'
     ARTICLE_DATE = 'article_date'

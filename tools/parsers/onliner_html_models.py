@@ -1,9 +1,9 @@
 """Storage module for class OnlinerArticle, OnlinerCategory and MainOnlinerPageLinks"""
 import logging
 from typing import List
-from parsing_onliner.models.onliner_objects.parsing import OnlinerHTMLParser
 from requests import codes
-from parsing_onliner.tools.clients.http_client import HTTPClient
+from models.onliner_objects.parsing import OnlinerHTMLParser
+from tools.clients.http_client import HTTPClient
 
 DEFAULT_HEADERS = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko)'
@@ -35,7 +35,7 @@ class OnlinerArticle:
 
 
 class OnlinerCategory:
-    """Class gets OnlinerArticle objects"""
+    """Class works with categories"""
 
     def __init__(self, category_url: str, http_client: HTTPClient, exception: str = None):
         """
@@ -66,14 +66,14 @@ class OnlinerCategory:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            category_names = OnlinerHTMLParser.get_onliner_category_names(response.text, self.__exception)
+            category_names = OnlinerHTMLParser.get_categories_data(response.text, False, self.__exception)
             return category_names
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
 
 
 class MainOnlinerPage:
-    """Class gets OnlinerCategory object"""
+    """Class works with main onliner page"""
 
     def __init__(self, url: str, http_client: HTTPClient, exception: str = None):
         """
@@ -92,7 +92,7 @@ class MainOnlinerPage:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            categories_links = OnlinerHTMLParser.get_categories_link(response.text, self.__exception)
+            categories_links = OnlinerHTMLParser.get_categories_data(response.text, True, self.__exception)
             return [OnlinerCategory(link, self.http_client) for link in categories_links]
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
