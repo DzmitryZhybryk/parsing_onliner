@@ -8,7 +8,7 @@ class OnlinerHTMLParser:
     """Parsing class for working with Onliner pages"""
 
     @staticmethod
-    def get_categories_data(html: str, is_links=True, exception: str = None) -> List[str]:
+    def get_categories_data(html: str, is_links: bool = True, exception: str = None) -> List[str]:
         """
         Method of obtaining categories links and categories names
         :param html: links to categories of html page codes
