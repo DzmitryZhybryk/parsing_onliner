@@ -10,7 +10,7 @@ if __name__ == '__main__':
     category_links = MainOnlinerPage('https://www.onliner.by/', http_client)
     print(category_links.get_onliner_categories_object)
 
-    category_names = OnlinerCategory('https://www.onliner.by/', http_client)
+    category_names = OnlinerCategory('https://www.onliner.by/', http_client, 'Форум')
     print(category_names.get_categories_name)
 
     article_info = OnlinerArticle('https://auto.onliner.by/2021/09/27/v-velikobritanii-deficit-topliva', http_client)

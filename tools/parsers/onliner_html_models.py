@@ -66,7 +66,8 @@ class OnlinerCategory:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            category_names = OnlinerHTMLParser.get_categories_data(response.text, False, self.__exception)
+            category_names = OnlinerHTMLParser.get_categories_data(html=response.text, is_links=False,
+                                                                   exception=self.__exception)
             return category_names
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
@@ -92,7 +93,7 @@ class MainOnlinerPage:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            categories_links = OnlinerHTMLParser.get_categories_data(response.text, True, self.__exception)
+            categories_links = OnlinerHTMLParser.get_categories_data(html=response.text, exception=self.__exception)
             return [OnlinerCategory(link, self.http_client) for link in categories_links]
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
