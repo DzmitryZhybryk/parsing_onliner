@@ -10,7 +10,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def get_categories_data(html: str, is_links=True, exception: str = None) -> List[str]:
         """
-        Category page parsing method
+        Method of obtaining categories links and categories names
         :param html: links to categories of html page codes
         :param is_links: flag for selecting the desired iteration
         :param exception: use for exclusion something from result
@@ -55,7 +55,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def get_articles_link(html: str) -> List[str]:
         """
-        Category page parsing method
+        Method of obtaining articles link
         :param html: links to categories of html page codes
         :return: article links
         """
@@ -78,7 +78,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def get_articles(html: str) -> List[dict]:
         """
-        Article page parsing method
+        Method of obtaining article information
         :param html: html page cod article links
         :return: article information
         """
