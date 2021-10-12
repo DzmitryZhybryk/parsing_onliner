@@ -13,12 +13,12 @@ class HTTPClient:
 
     @staticmethod
     def post(url: str, headers: Optional[dict] = None, params: Optional[dict] = None, json: Optional[str] = None,
-             data: Optional[dict, list] = None) -> Response:
+             data: Optional[dict] = None) -> Response:
         return requests.post(url, headers=headers, params=params, json=json, data=data)
 
     @staticmethod
     def put(url: str, headers: Optional[dict] = None, params: Optional[dict] = None, json: Optional[str] = None,
-            data: Optional[dict, list] = None) -> Response:
+            data: Optional[dict] = None) -> Response:
         return requests.put(url, headers=headers, params=params, json=json, data=data)
 
     @staticmethod
