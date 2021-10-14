@@ -1,5 +1,6 @@
 """Storage module for class OnlinerHTMLParser"""
 from typing import List
+from urllib.parse import urljoin
 from models.onliner_objects.variables import ArticleField
 from bs4 import BeautifulSoup
 
@@ -34,10 +35,10 @@ class OnlinerHTMLParser:
         """
         Helper parser_onliner_articles_link method
         :param link: article link
-                :param category_url: category url
+        :param category_url: category url
         :return: verified links to include HTTP
         """
-        return link if category_url in link else f'{category_url[:-1]}{link}'
+        return link if category_url in link else urljoin(category_url, link)
 
     @staticmethod
     def __helper_get_articles_link(*soup_objects: list, category_url: str) -> List[str]:
@@ -98,3 +99,13 @@ class OnlinerHTMLParser:
         })
         return article_info
 
+    @staticmethod
+    def get_article_text(html: str) -> str:
+        soup = BeautifulSoup(html, 'html.parser')
+        article_text = ''
+        items = soup.find('div', class_="news-text").find_all('p')
+        for item in items:
+            item = item.get_text(strip=True)
+            item = OnlinerHTMLParser.__helper_get_articles(item)
+            article_text = f'{article_text}{item}'
+        return article_text

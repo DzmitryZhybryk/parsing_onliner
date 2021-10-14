@@ -1,6 +1,6 @@
 """Storage module for class OnlinerArticle, OnlinerCategory and MainOnlinerPageLinks"""
 import logging
-from typing import List
+from typing import List, Union
 from requests import codes
 from models.onliner_objects.parsing import OnlinerHTMLParser
 from tools.clients.http_client import HTTPClient
@@ -20,16 +20,19 @@ class OnlinerArticle:
         self.url = article_url
         self.http_client = http_client
 
-    @property
-    def get_articles_info_list(self) -> List[dict]:
+    def get_articles_info_list(self, is_articles_info: bool = True) -> Union[List[dict], str]:
         """
         Method to call the parser_onliner_articles method
         :return: list with information about article name, article date and article author
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            articles_info = OnlinerHTMLParser.get_articles(response.text)
-            return articles_info
+            if is_articles_info:
+                articles_info = OnlinerHTMLParser.get_articles(response.text)
+                return articles_info
+            else:
+                articles_text = OnlinerHTMLParser.get_article_text(response.text)
+                return articles_text
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
 
