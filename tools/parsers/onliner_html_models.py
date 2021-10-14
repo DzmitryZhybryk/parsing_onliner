@@ -53,7 +53,7 @@ class OnlinerCategory:
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
         if response.status_code == codes.ok:
-            articles_links = OnlinerHTMLParser.get_articles_link(response.text)
+            articles_links = OnlinerHTMLParser.get_articles_link(response.text, self.url)
             return [OnlinerArticle(link, self.http_client) for link in articles_links]
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []

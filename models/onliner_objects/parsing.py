@@ -30,40 +30,44 @@ class OnlinerHTMLParser:
         return all_categories_links
 
     @staticmethod
-    def __http_check(link: str) -> str:
+    def __http_check(link: str, category_url: str) -> str:
         """
         Helper parser_onliner_articles_link method
         :param link: article link
+                :param category_url: category url
         :return: verified links to include HTTP
         """
-        return link if 'https:/' in link else f'https:/{link}'
+        return link if category_url in link else f'{category_url[:-1]}{link}'
 
     @staticmethod
-    def __helper_get_articles_link(*soup_objects: list) -> List[str]:
+    def __helper_get_articles_link(*soup_objects: list, category_url: str) -> List[str]:
         """
         Helper parser_onliner_articles_link method
         :param soup_objects: list soup objects
+        :param category_url: category url
         :return: article links
         """
         result = []
         for items in soup_objects:
             for item in items:
                 link = item.get('href')
-                result.append(OnlinerHTMLParser.__http_check(link))
+                result.append(OnlinerHTMLParser.__http_check(link, category_url))
         return result
 
     @staticmethod
-    def get_articles_link(html: str) -> List[str]:
+    def get_articles_link(html: str, category_url: str) -> List[str]:
         """
         Method of obtaining articles link
         :param html: links to categories of html page codes
+        :param category_url: category url
         :return: article links
         """
         soup = BeautifulSoup(html, 'html.parser')
         first_list_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tiles__stub')
         second_list_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tidings__stub')
-        all_articles_links = list(OnlinerHTMLParser.__helper_get_articles_link(first_list_soup_object,
-                                                                               second_list_soup_object))
+        all_articles_links = list(
+            OnlinerHTMLParser.__helper_get_articles_link(first_list_soup_object, second_list_soup_object,
+                                                         category_url=category_url))
         return all_articles_links
 
     @staticmethod
@@ -93,3 +97,4 @@ class OnlinerHTMLParser:
             ArticleField.ARTICLE_AUTHOR.value: article_author
         })
         return article_info
+
