@@ -18,3 +18,6 @@ if __name__ == '__main__':
 
     article_text = OnlinerArticle('https://people.onliner.by/2021/10/13/vooruzhennyj-lukom', http_client)
     print(article_text.get_articles_info_list(is_articles_info=False))
+
+    article_text = OnlinerArticle('https://people.onliner.by', http_client)
+    print(article_text.get_all_article_text())

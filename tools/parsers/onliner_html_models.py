@@ -23,6 +23,7 @@ class OnlinerArticle:
     def get_articles_info_list(self, is_articles_info: bool = True) -> Union[List[dict], str]:
         """
         Method to call the parser_onliner_articles method
+        :param is_articles_info: flag for selecting the desired iteration
         :return: list with information about article name, article date and article author
         """
         response = self.http_client.get(self.url, DEFAULT_HEADERS)
@@ -35,6 +36,18 @@ class OnlinerArticle:
                 return articles_text
         logging.error(f'status code - {response.status_code}, error type - {response.reason}')
         return []
+
+    def get_all_article_text(self):
+        """
+        Method to call the get_article_text method
+        :return: list with all article text
+        """
+        links, all_articles_text = [], []
+        onliner_category_object = OnlinerCategory(self.url, self.http_client)
+        [links.append(items.url) for items in onliner_category_object.get_articles_object]
+        [all_articles_text.append(OnlinerArticle(link, self.http_client).get_articles_info_list(False)) for link in
+         links]
+        return all_articles_text
 
 
 class OnlinerCategory:

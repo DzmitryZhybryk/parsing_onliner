@@ -101,6 +101,11 @@ class OnlinerHTMLParser:
 
     @staticmethod
     def get_article_text(html: str) -> str:
+        """
+        Way to get the text of the article
+        :param html: html page cod article links
+        :return: article text
+        """
         soup = BeautifulSoup(html, 'html.parser')
         article_text = ''
         data = soup.find('div', class_="news-text").find_all('p')
