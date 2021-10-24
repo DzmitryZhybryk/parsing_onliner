@@ -103,9 +103,8 @@ class OnlinerHTMLParser:
     def get_article_text(html: str) -> str:
         soup = BeautifulSoup(html, 'html.parser')
         article_text = ''
-        items = soup.find('div', class_="news-text").find_all('p')
-        for item in items:
-            item = item.get_text(strip=True)
-            item = OnlinerHTMLParser.__helper_get_articles(item)
-            article_text = f'{article_text}{item}'
+        data = soup.find('div', class_="news-text").find_all('p')
+        for item in data:
+            text = OnlinerHTMLParser.__helper_get_articles(item.get_text(strip=True))
+            article_text = f'{article_text}{text}'
         return article_text

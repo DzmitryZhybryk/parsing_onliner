@@ -13,5 +13,8 @@ if __name__ == '__main__':
     category_names = OnlinerCategory('https://www.onliner.by/', http_client, 'Форум')
     print(category_names.get_categories_name)
 
-    article_info = OnlinerArticle('https://auto.onliner.by/2021/09/27/v-velikobritanii-deficit-topliva', http_client)
-    print(article_info.get_articles_info_list)
+    article_info = OnlinerArticle('https://people.onliner.by/2021/10/13/vooruzhennyj-lukom', http_client)
+    print(article_info.get_articles_info_list())
+
+    article_text = OnlinerArticle('https://people.onliner.by/2021/10/13/vooruzhennyj-lukom', http_client)
+    print(article_text.get_articles_info_list(is_articles_info=False))
