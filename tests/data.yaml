@@ -1,0 +1,10 @@
+test_onliner_auto_categories_links:
+  url: https://auto.onliner.by/
+test_onliner_people_categories_links:
+  url: https://people.onliner.by/
+test_onliner_categories_count:
+  url: https://www.onliner.by/
+  excepted_result: 6
+test_onliner_article_is_not_empty:
+  url: https://people.onliner.by/2021/10/13/vooruzhennyj-lukom
+
