@@ -5,10 +5,10 @@ from tools.parsers.onliner_html_models import OnlinerCategory, OnlinerArticle
 
 
 @pytest.fixture()
-def test_data(request) -> dict:
+def test_data(request) -> dict[str]:
     """
     Method reads the yaml file and return parameters depending on the test that called it
-    :return: params dict
+    :return: parameters dict
     """
     with open(f'{request.fspath.dirname}/data.yaml') as file:
         return yaml.load(file).get(request.function.__name__)
@@ -20,7 +20,7 @@ def http_client() -> HTTPClient:
 
 
 @pytest.fixture()
-def actual_categories_number(test_data, http_client) -> int:
+def actual_categories_number(test_data: dict, http_client: HTTPClient) -> int:
     """
     Method create OnlinerCategory object
     :param test_data: dict with parameters
@@ -32,7 +32,7 @@ def actual_categories_number(test_data, http_client) -> int:
 
 
 @pytest.fixture()
-def chek_word_in_text(test_data, http_client):
+def chek_word_in_text(test_data: dict, http_client: HTTPClient) -> list[str]:
     """
     Method create OnlinerArticle object for receive all articles text
     :param test_data: dict with parameters
@@ -46,7 +46,7 @@ def chek_word_in_text(test_data, http_client):
 
 
 @pytest.fixture()
-def article_is_not_empty(test_data, http_client):
+def article_is_not_empty(test_data: dict, http_client: HTTPClient) -> int:
     """
     Method create OnlinerCategory object for receive article length
     :param test_data: dict with parameters
@@ -55,4 +55,3 @@ def article_is_not_empty(test_data, http_client):
     """
     onliner_article_object = OnlinerArticle(test_data.get('url'), http_client)
     return len(onliner_article_object.get_articles_info_list(is_articles_info=False))
-
