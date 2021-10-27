@@ -11,11 +11,11 @@ class OnlinerHTMLParser:
     @staticmethod
     def get_categories_data(html: str, is_links: bool = True, exception: str = None) -> List[str]:
         """
-        Method of obtaining categories links and categories names
+        Method creates the soup object and parses information about category links and category names
         :param html: links to categories of html page codes
         :param is_links: flag for selecting the desired iteration
         :param exception: use for exclusion something from result
-        :return: article links or category names
+        :return: category links or category names
         """
         all_categories_links = []
         soup = BeautifulSoup(html, 'html.parser')
@@ -33,7 +33,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def __http_check(link: str, category_url: str) -> str:
         """
-        Helper parser_onliner_articles_link method
+        Helper parser_onliner_articles_link method. Check the link is correct
         :param link: article link
         :param category_url: category url
         :return: verified links to include HTTP
@@ -43,7 +43,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def __helper_get_articles_link(*soup_objects: list, category_url: str) -> List[str]:
         """
-        Helper parser_onliner_articles_link method
+        Helper parser_onliner_articles_link method. Gets soup objects and find articles links in it
         :param soup_objects: list soup objects
         :param category_url: category url
         :return: article links
@@ -58,10 +58,10 @@ class OnlinerHTMLParser:
     @staticmethod
     def get_articles_link(html: str, category_url: str) -> List[str]:
         """
-        Method of obtaining articles link
+        Method creates the soup object and parses information about articles links
         :param html: links to categories of html page codes
         :param category_url: category url
-        :return: article links
+        :return: articles links
         """
         soup = BeautifulSoup(html, 'html.parser')
         first_list_soup_object = soup.find('div', class_='news-grid__flex').find_all('a', class_='news-tiles__stub')
@@ -74,7 +74,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def __helper_get_articles(text: str) -> str:
         """
-        Helper parser_onliner_articles method
+        Helper parser_onliner_articles method. Checks for unnecessary characters in the article text
         :param text: article info
         :return: correct article info
         """
@@ -83,7 +83,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def get_articles(html: str) -> List[dict]:
         """
-        Method of obtaining article information
+        Method creates the soup object and parses information about articles
         :param html: html page cod article links
         :return: article information
         """
@@ -102,7 +102,7 @@ class OnlinerHTMLParser:
     @staticmethod
     def get_article_text(html: str) -> str:
         """
-        Way to get the text of the article
+        Method creates the soup object and parses information about articles texts
         :param html: html page cod article links
         :return: article text
         """
