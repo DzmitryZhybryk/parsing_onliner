@@ -22,7 +22,7 @@ def http_client() -> HTTPClient:
 @pytest.fixture()
 def actual_categories_number(test_data: dict, http_client: HTTPClient) -> int:
     """
-    Method create OnlinerCategory object
+    Method create OnlinerCategory object and return the number of all categories
     :param test_data: dict with parameters
     :param http_client: http client
     :return: the number of all categories
@@ -54,4 +54,5 @@ def article_is_not_empty(test_data: dict, http_client: HTTPClient) -> int:
     :return: article length
     """
     onliner_article_object = OnlinerArticle(test_data.get('url'), http_client)
-    return len(onliner_article_object.get_articles_info_list(is_articles_info=False))
+    return bool(onliner_article_object.get_articles_info_list(is_articles_info=False))
+

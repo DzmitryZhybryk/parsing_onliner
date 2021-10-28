@@ -7,4 +7,5 @@ test_onliner_categories_count:
   excepted_result: 6
 test_onliner_article_is_not_empty:
   url: https://people.onliner.by/2021/10/13/vooruzhennyj-lukom
+  excepted_result: True
 
