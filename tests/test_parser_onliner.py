@@ -1,8 +1,9 @@
 import pytest
 
 
-def test_onliner_categories_count(test_data: dict, actual_categories_number: int):
-    assert actual_categories_number == test_data.get('excepted_result'), 'The number of categories should be six!'
+def test_onliner_categories_count(test_data: dict, actual_onliner_categories_list: list):
+    assert len(actual_onliner_categories_list) == test_data.get(
+        'excepted_result'), 'The number of categories should be six!'
 
 
 @pytest.mark.parametrize('test_input', ['авто', 'машина'])

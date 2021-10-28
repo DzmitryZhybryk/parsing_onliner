@@ -1,13 +1,16 @@
 import pytest
+from typing import Dict
+
 import yaml
+
 from tools.clients.http_client import HTTPClient
 from tools.parsers.onliner_html_models import OnlinerCategory, OnlinerArticle
 
 
 @pytest.fixture()
-def test_data(request) -> dict[str]:
+def test_data(request) -> Dict[str, str]:
     """
-    Method reads the yaml file and return parameters depending on the test that called it
+    Fixture reads the yaml file and returns parameters depending on the test that called it
     :return: parameters dict
     """
     with open(f'{request.fspath.dirname}/data.yaml') as file:
@@ -16,25 +19,29 @@ def test_data(request) -> dict[str]:
 
 @pytest.fixture(scope='session')
 def http_client() -> HTTPClient:
+    """
+    Fixture make http response
+    :return: HTTPClient
+    """
     return HTTPClient()
 
 
 @pytest.fixture()
-def actual_categories_number(test_data: dict, http_client: HTTPClient) -> int:
+def actual_onliner_categories_list(test_data: dict, http_client: HTTPClient) -> list:
     """
-    Method create OnlinerCategory object and return the number of all categories
+    Fixture create OnlinerCategory object and returns the number of all categories
     :param test_data: dict with parameters
     :param http_client: http client
     :return: the number of all categories
     """
     onliner_category_object = OnlinerCategory(test_data.get('url'), http_client, 'Форум')
-    return len(onliner_category_object.get_category_names_list)
+    return onliner_category_object.get_category_names_list
 
 
 @pytest.fixture()
 def chek_word_in_text(test_data: dict, http_client: HTTPClient) -> list[str]:
     """
-    Method create OnlinerArticle object for receive all articles text
+    Fixture create OnlinerArticle object for receive all articles text
     :param test_data: dict with parameters
     :param http_client: http client
     :return: all articles text
