@@ -7,14 +7,14 @@ def test_onliner_categories_count(test_data: dict, actual_onliner_categories_lis
 
 
 @pytest.mark.parametrize('test_input', ['авто', 'машина'])
-def test_onliner_auto_categories_articles(test_input: str, chek_word_in_text: list):
-    for items in chek_word_in_text:
+def test_onliner_auto_categories_articles(test_input: str, check_word_in_text: list):
+    for items in check_word_in_text:
         assert test_input in items, f'All auto categories articles should to have {test_input} word!'
 
 
 @pytest.mark.parametrize('test_input', ['Минск'])
-def test_onliner_people_categories_articles(test_input: str, chek_word_in_text: list):
-    for items in chek_word_in_text:
+def test_onliner_people_categories_articles(test_input: str, check_word_in_text: list):
+    for items in check_word_in_text:
         assert test_input not in items, f'All people categories should not have {test_input} word!'
 
 

@@ -1,5 +1,5 @@
 import pytest
-from typing import Dict
+from typing import Dict, List
 
 import yaml
 
@@ -34,12 +34,13 @@ def actual_onliner_categories_list(test_data: dict, http_client: HTTPClient) -> 
     :param http_client: http client
     :return: the number of all categories
     """
-    onliner_category_object = OnlinerCategory(test_data.get('url'), http_client, 'Форум')
+    exception = 'Форум'
+    onliner_category_object = OnlinerCategory(test_data.get('url'), http_client, exception)
     return onliner_category_object.get_category_names_list
 
 
 @pytest.fixture()
-def chek_word_in_text(test_data: dict, http_client: HTTPClient) -> list[str]:
+def check_word_in_text(test_data: dict, http_client: HTTPClient) -> List[str]:
     """
     Fixture create OnlinerArticle object for receive all articles text
     :param test_data: dict with parameters
