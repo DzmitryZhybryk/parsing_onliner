@@ -39,7 +39,7 @@ def actual_onliner_categories_list(test_data: dict, http_client: HTTPClient) -> 
     return onliner_category_object.get_category_names_list
 
 
-@pytest.fixture()
+@pytest.fixture
 def check_word_in_text(test_data: dict, http_client: HTTPClient) -> List[str]:
     """
     Fixture create OnlinerArticle object for receive all articles text
@@ -49,7 +49,7 @@ def check_word_in_text(test_data: dict, http_client: HTTPClient) -> List[str]:
     """
     onliner_category_object = OnlinerCategory(test_data.get('url'), http_client)
     links = [items.url for items in onliner_category_object.get_articles_list]
-    all_articles_text = [OnlinerArticle(link, http_client).get_articles_info_list(False) for link in links]
+    all_articles_text = (OnlinerArticle(link, http_client).get_articles_info_list(False) for link in links)
     return all_articles_text
 
 

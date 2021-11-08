@@ -1,6 +1,6 @@
-test_onliner_auto_categories_links:
+test_onliner_auto_categories_articles:
   url: https://auto.onliner.by/
-test_onliner_people_categories_links:
+test_onliner_people_categories_articles:
   url: https://people.onliner.by/
 test_onliner_categories_count:
   url: https://www.onliner.by/
