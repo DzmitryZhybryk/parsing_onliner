@@ -1,4 +1,4 @@
-# Rabota_by microservice
+# Rabota_by microservice task
 
 
 This project was created to collect information from https://rabota.by/ and store it in the Rest service database
